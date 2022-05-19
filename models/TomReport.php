@@ -1,0 +1,57 @@
+<?php
+
+namespace app\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "tom_report".
+ *
+ * @property int $id
+ * @property int $task_id
+ * @property string $name
+ * @property int $percent_done
+ */
+class TomReport extends \yii\db\ActiveRecord
+{
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return 'tom_report';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['id', 'task_id', 'name', 'percent_done'], 'required'],
+            [['id', 'task_id', 'percent_done'], 'integer'],
+            [['name'], 'string'],
+            [['id'], 'unique'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'task_id' => 'Task ID',
+            'name' => 'Name',
+            'percent_done' => 'Percent Done',
+        ];
+    }
+
+    public function getByTask($id)
+    {
+
+        $query = new \yii\db\Query();
+        return $query->from(['repo' => 'tom_report'])->where('`repo`.`task_id` = ' . $id)->all();
+    }
+}

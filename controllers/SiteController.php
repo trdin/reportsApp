@@ -10,6 +10,9 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\SignupForm;
+use app\models\TomProject;
+use app\models\TomReport;
+use app\models\TomTask;
 
 class SiteController extends Controller
 {
@@ -137,5 +140,32 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionProjects()
+    {
+        $projectModel = new TomProject();
+        $taksModel = new TomTask();
+        $reportModel = new TomReport();
+
+        $projects = $projectModel->list();
+        $returnArray = [];
+        foreach ($projects as $project) {
+            $returnArray[] = [
+                "name" => $project->name,
+                "done" => $projectModel->percentDone($project->id)["avg"],
+                "tasks" => $taksModel->getByProject($project->id),
+            ];
+            /*$tmp = (array)$project;
+            $tmp["done"] = $projectModel->percentDone($project->id)["avg"];
+            $tmp["tasks"] = $taksModel->getByProject($project->id);*/
+        }
+
+        return $this->render('projects', [
+            'projectModel' => $projectModel,
+            'taksModel' => $taksModel,
+            'reportModel' => $reportModel,
+            'projects' => $returnArray
+        ]);
     }
 }
