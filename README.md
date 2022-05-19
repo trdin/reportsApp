@@ -1,3 +1,7 @@
+Projects with progress bar tasks and reports
+![image](https://user-images.githubusercontent.com/89972475/169388910-1ddf57f0-18d6-4bde-b301-a130092b3c23.png)
+
+
 #Learning the Yii2 framework
 
 
